@@ -9,17 +9,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:congress_fahrplan/model/fahrplan.dart';
-import 'package:congress_fahrplan/model/favorited_talks.dart';
-import 'package:congress_fahrplan/model/settings.dart';
-import 'package:congress_fahrplan/utilities/fahrplan_decoder.dart';
-import 'package:congress_fahrplan/utilities/file_storage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/fahrplan.dart';
+import '../model/favorited_talks.dart';
+import '../model/settings.dart';
+import '../utilities/fahrplan_decoder.dart';
+import '../utilities/file_storage.dart';
+
 class FahrplanFetcher {
   static String minimalFahrplanUrl =
-      'https://static.rc3.world/schedule/everything.json';
+      'https://cfp.eh20.easterhegg.eu/eh20/schedule/v/0.15/widget/v2.json';
 
   static bool multipleSchedules = false;
 
@@ -48,7 +49,7 @@ class FahrplanFetcher {
       favTalks = FavoritedTalks.fromJson(json.decode(favoriteData));
     } else {
       favTalks = new FavoritedTalks(
-        ids: List<int>.empty(growable: true),
+        ids: List<String>.empty(growable: true),
       );
     }
 
@@ -118,7 +119,7 @@ class FahrplanFetcher {
         FileStorage.writeDataFile(fahrplanJson);
 
         return new FahrplanDecoder().decodeFahrplanFromJson(
-          json.decode(fahrplanJson)['schedule'],
+          json.decode(fahrplanJson),
           favTalks,
           settings,
           FahrplanFetchState.successful,

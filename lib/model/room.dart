@@ -5,37 +5,38 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/widgets/talk.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/talk.dart';
 
 class Room extends StatelessWidget {
   final String? name;
-  final List<Talk>? talks;
+  final int? id;
 
   static int numberOfRooms = 0;
   static List<String> namesOfRooms = [];
 
+  List<Talk>? talks = [];
+
   Room({
+    this.id,
     this.name,
-    this.talks,
   });
 
-  factory Room.fromJson(var json, String name, DateTime day) {
-    return Room(name: name, talks: jsonToTalkList(json, name, day));
-  }
-
-  static List<Talk> jsonToTalkList(var json, String name, DateTime day) {
-    List<Talk> talkList = [];
-    for (var j in json) {
-      Talk t = Talk.fromJson(j, name);
-      t.setDay(day);
-      talkList.add(t);
-    }
-    return talkList;
+  factory Room.fromJson(var json) {
+    return Room(id: json['id'], name: json['name']['de']);
   }
 
   @override
   build(BuildContext context) {
     return Card();
+  }
+
+  static List<Room> jsonToRoomList(json) {
+    List<Room> roomList = [];
+    for (var rn in json) {
+      roomList.add(Room.fromJson(rn));
+    }
+    return roomList;
   }
 }

@@ -5,10 +5,10 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/utilities/file_storage.dart';
+import '../utilities/file_storage.dart';
 
 class FavoritedTalks {
-  final List<int> ids;
+  final List<String> ids;
 
   FavoritedTalks({required this.ids});
 
@@ -18,12 +18,12 @@ class FavoritedTalks {
     );
   }
 
-  void addFavoriteTalk(int id) {
+  void addFavoriteTalk(String id) {
     ids.add(id);
     FileStorage.writeFavoritesFile('{"ids": $ids}');
   }
 
-  void removeFavoriteTalk(int id) {
+  void removeFavoriteTalk(String id) {
     ids.remove(id);
     FileStorage.writeFavoritesFile('{"ids": $ids}');
   }

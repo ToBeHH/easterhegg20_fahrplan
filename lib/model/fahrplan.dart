@@ -5,14 +5,14 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/model/favorited_talks.dart';
-import 'package:congress_fahrplan/model/settings.dart';
-import 'package:congress_fahrplan/widgets/fahrplan_drawer.dart';
-import 'package:congress_fahrplan/widgets/talk.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_view_indicators/linear_progress_page_indicator.dart';
 
-import 'conference.dart';
+import '../model/favorited_talks.dart';
+import '../model/settings.dart';
+import '../widgets/fahrplan_drawer.dart';
+import '../widgets/talk.dart';
 import 'day.dart';
 import 'room.dart';
 
@@ -25,8 +25,7 @@ enum FahrplanFetchState {
 
 class Fahrplan {
   final String? version;
-  final String? baseUrl;
-  final Conference? conference;
+  final String? timezone;
   final FahrplanFetchState? fetchState;
   final String? fetchMessage;
 
@@ -43,46 +42,65 @@ class Fahrplan {
 
   final Settings? settings;
 
-  Fahrplan({
-    this.version,
-    this.baseUrl,
-    this.conference,
-    this.days,
-    this.rooms,
-    this.favTalkIds,
-    this.favoriteTalks,
-    this.settings,
-    this.fetchState,
-    this.fetchMessage,
-  });
+  final DateTime? start;
+  final DateTime? end;
+
+  Fahrplan(
+      {this.version,
+      this.timezone,
+      this.days,
+      this.rooms,
+      this.favTalkIds,
+      this.favoriteTalks,
+      this.settings,
+      this.fetchState,
+      this.fetchMessage,
+      this.start,
+      this.end});
 
   factory Fahrplan.fromJson(var json, FavoritedTalks favTalks,
       Settings settings, FahrplanFetchState fetchState) {
+    DateTime minStart = DateTime.parse(json['talks'][0]['start']);
+    DateTime maxEnd = DateTime.parse(json['talks'][0]['end']);
+    for (var talk in json['talks']) {
+      DateTime s = DateTime.parse(talk['start']);
+      DateTime e = DateTime.parse(talk['end']);
+      if (s.isBefore(minStart)) {
+        minStart = s;
+      }
+      if (e.isAfter(maxEnd)) {
+        maxEnd = e;
+      }
+    }
+
     return Fahrplan(
       version: json['version'],
-      baseUrl: json['base_url'],
-      conference: Conference.fromJson(json['conference']),
+      timezone: json['timezone'],
       days: List<Day>.empty(growable: true),
-      rooms: List<Room>.empty(growable: true),
+      rooms: Room.jsonToRoomList(json['rooms']),
       favTalkIds: favTalks,
       favoriteTalks: List<Talk>.empty(growable: true),
       settings: settings,
       fetchState: fetchState,
+      start: minStart,
+      end: maxEnd,
     );
   }
 
+  String get acronym => "Easterhegg20";
+
   Widget buildDayLayout(BuildContext context) {
     dayTabCache = TabBarView(
-      children: this.conference!.buildDayTabs(),
+      children: buildDayTabs(),
     );
     return new DefaultTabController(
-      length: conference!.daysCount!,
+      length: days!.length,
       child: new Scaffold(
         appBar: new AppBar(
           title: Text(getFahrplanTitle()),
           bottom: PreferredSize(
             child: TabBar(
-              tabs: conference!.getDaysAsText(),
+              tabs: getDaysAsText(),
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: Theme.of(context).indicatorColor),
               ),
@@ -96,6 +114,61 @@ class Fahrplan {
         body: dayTabCache,
       ),
     );
+  }
+
+  List<Widget> buildDayTabs() {
+    List<Column> dayColumns = [];
+    for (Day d in days!) {
+      if (d.talks!.length > 0) {
+        List<Widget> widgets = [];
+        widgets.addAll(d.talks!);
+        dayColumns.add(
+          Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                  itemCount: d.talks!.length,
+                  itemBuilder: (context, index) {
+                    return d.talks![index];
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    return dayColumns;
+  }
+
+  List<Widget> getDaysAsText() {
+    List<Widget> dayTexts = [];
+    for (Day d in days!) {
+      if (d.talks!.length == 0) {
+        continue;
+      }
+      String weekday = new DateFormat.E().format(d.date!);
+
+      String dateString =
+          d.date!.month.toString() + '-' + d.date!.day.toString();
+      String semanticsDay = new DateFormat.EEEE().format(d.date!) +
+          ' ' +
+          new DateFormat.yMMMMd().format(d.date!);
+      dayTexts.add(
+        new Semantics(
+          label: semanticsDay,
+          child: ExcludeSemantics(
+            child: Text(
+              '$weekday | $dateString',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return dayTexts;
   }
 
   /// Room layout is shown when in landscape mode
@@ -200,9 +273,9 @@ class Fahrplan {
     for (Day d in days!) {
       List<Widget> widgets = [];
       widgets.addAll(favoriteTalks!
-          .where((talk) => talk.date!.day == d.date!.day)
-          .where((talk) => conference!.days!
-              .firstWhere((date) => date.date!.day == talk.day!.day)
+          .where((talk) => talk.start!.day == d.date!.day)
+          .where((talk) => days!
+              .firstWhere((date) => date.date!.day == talk.start!.day)
               .talks!
               .contains(talk)));
       dayColumns.add(
@@ -224,12 +297,10 @@ class Fahrplan {
   }
 
   String getFahrplanTitle() {
-    String acronym = conference!.acronym!;
-    return 'Congress Fahrplan - $acronym';
+    return 'Easterhegg20 Fahrplan';
   }
 
   String getFavoritesTitle() {
-    String acronym = conference!.acronym!;
-    return 'Favorites - $acronym';
+    return 'Favorites - Easterhegg20';
   }
 }

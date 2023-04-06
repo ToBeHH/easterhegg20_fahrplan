@@ -5,77 +5,70 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../model/room.dart';
+import '../provider/favorite_provider.dart';
 
 /// The Talk widget stores all data about it and build a card with all data relevant for it.
 class Talk extends StatelessWidget {
-  DateTime? day;
-  final int? id;
+  final String? code;
   final String? title;
   final String? track;
-  final String? subtitle;
   final String? abstract;
-  final String? start;
-  final String? duration;
+  final DateTime? start;
+  final DateTime? end;
   final String? room;
-  final String? language;
-  final DateTime? date;
-  final String? url;
-  final List<Person>? persons;
+  final List<Person>? speakers;
   bool? favorite;
 
   Talk(
-      {this.id,
+      {this.code,
       this.title,
       this.track,
-      this.subtitle,
       this.abstract,
       this.start,
-      this.duration,
+      this.end,
       this.room,
-      this.date,
-      this.language,
-      this.url,
-      this.persons,
+      this.speakers,
       this.favorite});
 
-  factory Talk.fromJson(var json, String room) {
+  factory Talk.fromJson(var json, List<Person> speakers, List<Room> rooms) {
     print("talk fromJson");
     print(json);
     return Talk(
-      id: json['id'] != null ? json['id'] : 0,
+      code: json['code'] != null ? json['code'] : 0,
       title: json['title'] != null ? json['title'] : "",
       track: json['track'] != null ? json['track'] : "",
-      subtitle: json['subtitle'] != null ? json['subtitle'] : "",
       abstract: json['abstract'] != null ? json['abstract'] : "",
-      start: json['start'] != null ? json['start'] : "",
-      duration: json['duration'] != null ? json['duration'] : "",
-      room: room,
-      language: json['language'] != null ? json['language'] : "",
-      date: DateTime.parse(json['date']),
-      url: json['url'] != null ? json['url'] : "",
-      persons:
-          json['persons'] != null ? jsonToPersonList(json['persons']) : null,
+      room: json['room'] != null
+          ? rooms
+              .firstWhere((element) => element.id == json['room'],
+                  orElse: () => Room(id: 0, name: ''))
+              .name
+          : "",
+      start: DateTime.parse(json['start']),
+      end: DateTime.parse(json['end']),
+      speakers: json['speakers'] != null
+          ? jsonToSpeakerList(json['speakers'], speakers)
+          : null,
       favorite: false,
     );
   }
 
-  static List<Person> jsonToPersonList(var json) {
+  static List<Person> jsonToSpeakerList(var json, List<Person> speakers) {
     List<Person> persons = [];
-    for (var j in json) {
-      persons.add(Person.fromJson(j));
+    for (var code in json) {
+      for (var s in speakers) {
+        if (s.code == code) {
+          persons.add(s);
+          break;
+        }
+      }
     }
     return persons;
-  }
-
-  void setDay(DateTime d) {
-    this.day = d;
   }
 
   @override
@@ -95,15 +88,16 @@ class Talk extends StatelessWidget {
                   favorite! ? Icons.favorite : Icons.favorite_border,
                 ),
                 onPressed: () {
-                  favoriteProvider.favoriteTalk(this, day!);
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  DateTime day =
+                      DateTime(start!.year, start!.month, start!.day);
+                  favoriteProvider.favoriteTalk(this, day);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: favorite == true
                         ? Text('\"$title\" added to favorites.')
                         : Text('\"$title\" removed from favorites.'),
                     action: SnackBarAction(
                       label: "Revert",
-                      onPressed: () =>
-                          favoriteProvider.favoriteTalk(this, day!),
+                      onPressed: () => favoriteProvider.favoriteTalk(this, day),
                     ),
                     duration: Duration(seconds: 3),
                   ));
@@ -147,19 +141,6 @@ class Talk extends StatelessWidget {
                               },
                             ),
                           ),
-                          Semantics(
-                            label: 'Share $title',
-                            child: ExcludeSemantics(
-                              child: IconButton(
-                                tooltip: 'Share talk.',
-                                icon: Icon(
-                                  Icons.share,
-                                ),
-                                onPressed: () =>
-                                    Share.share('Check out this talk: $url'),
-                              ),
-                            ),
-                          ),
                         ],
                       )
                     ],
@@ -181,34 +162,14 @@ class Talk extends StatelessWidget {
             : ' - ');
     textString = textString +
         ('$room' != '' ? ('$track' != '' ? '$room' + ' - ' : '$room') : ' - ');
-    textString = textString +
-        ('$track' != ''
-            ? ('$language' != '' ? '$track' + ' - ' : '$track')
-            : ' - ');
-    textString = textString + ('$language' != '' ? '$language' : '');
+    textString = textString + ('$track' != '' ? '$track' : ' - ');
     return Semantics(
-        label: 'Start $start, Room $room, Track $track, Language $language',
+        label: 'Start $start, Room $room, Track $track',
         child: ExcludeSemantics(child: Text(textString)));
   }
 
   List<Widget> getDetails() {
     List<Widget> widgets = [];
-
-    /// Add the subtitle
-    if (subtitle != '') {
-      widgets.add(
-        Semantics(
-          label: 'Subtitle $subtitle',
-          child: Container(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-            child: Text(
-              '$subtitle',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          ),
-        ),
-      );
-    }
 
     /// Add the start details
     if (start != '') {
@@ -233,10 +194,10 @@ class Talk extends StatelessWidget {
     }
 
     /// Add the duration details
-    if (duration != '') {
+    if (end != '') {
       widgets.add(
         Semantics(
-          label: 'Duration $duration',
+          label: 'End $end',
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -245,7 +206,7 @@ class Talk extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$duration',
+                  '$end',
                 ),
               ],
             ),
@@ -298,64 +259,11 @@ class Talk extends StatelessWidget {
       );
     }
 
-    /// Add the language details
-    if (language != '') {
-      widgets.add(
-        Semantics(
-          label: 'Language $language',
-          child: ExcludeSemantics(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Icon(Icons.translate),
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                ),
-                Text(
-                  '$language',
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    /// Add the url details
-    if (url != '') {
-      widgets.add(
-        Semantics(
-          label: 'Open Talk details in Browser',
-          child: ExcludeSemantics(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Icon(Icons.open_in_browser),
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                ),
-                Expanded(
-                  child: Linkify(
-                    onOpen: (link) async {
-                      if (await canLaunch(url!)) {
-                        await launch(url!);
-                      } else {
-                        throw 'Could not launch $link';
-                      }
-                    },
-                    text: "$url",
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
     /// Add the persons details
-    if (persons!.length > 0) {
-      for (Person p in persons!) {
+    if (speakers!.length > 0) {
+      for (Person p in speakers!) {
         widgets.add(Semantics(
-          label: 'Presenter ${p.publicName}',
+          label: 'Presenter ${p.name}',
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -363,9 +271,9 @@ class Talk extends StatelessWidget {
                   child: Icon(Icons.group),
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
-                Text(p.publicName!.length > 20
-                    ? '${p.publicName!.substring(0, 19)}...'
-                    : '${p.publicName}'),
+                Text(p.name!.length > 20
+                    ? '${p.name!.substring(0, 19)}...'
+                    : '${p.name}'),
               ],
             ),
           ),
@@ -401,15 +309,17 @@ class Talk extends StatelessWidget {
 }
 
 class Person {
-  String? id;
-  String? publicName;
+  String? code;
+  String? name;
+  String? avatar;
 
-  Person({this.id, this.publicName});
+  Person({this.code, this.name, this.avatar});
 
   factory Person.fromJson(var json) {
     return Person(
-      id: json['id'] != null ? '${json['id']}' : '',
-      publicName: json['public_name'] != null ? json['public_name'] : '',
+      code: json['code'] != null ? '${json['code']}' : '',
+      name: json['name'] != null ? json['name'] : '',
+      avatar: json['avatar'] != null ? json['avatar'] : '',
     );
   }
 }

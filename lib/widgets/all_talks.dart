@@ -5,8 +5,8 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
-import 'package:congress_fahrplan/utilities/fahrplan_fetcher.dart';
+import '../provider/favorite_provider.dart';
+import '../utilities/fahrplan_fetcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,4 +1,4 @@
-package de.delusionsoftware.congress_fahrplan;
+package de.schulzhess.easterhegg20_fahrplan;
 
 import io.flutter.embedding.android.FlutterActivity;
 

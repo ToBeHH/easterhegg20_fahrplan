@@ -5,18 +5,19 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
-import 'package:congress_fahrplan/utilities/fahrplan_fetcher.dart';
-import 'package:congress_fahrplan/widgets/all_talks.dart';
-import 'package:congress_fahrplan/widgets/favorites.dart';
-import 'package:congress_fahrplan/widgets/flat_checkbox_text_button.dart';
-import 'package:congress_fahrplan/widgets/flat_icon_text_button.dart';
-import 'package:congress_fahrplan/widgets/sync_calendar.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../provider/favorite_provider.dart';
+import '../utilities/fahrplan_fetcher.dart';
+import '../widgets/all_talks.dart';
+import '../widgets/favorites.dart';
+import '../widgets/flat_checkbox_text_button.dart';
+import '../widgets/flat_icon_text_button.dart';
+import '../widgets/sync_calendar.dart';
 
 class FahrplanDrawer extends StatelessWidget {
   final String? title;
@@ -25,7 +26,7 @@ class FahrplanDrawer extends StatelessWidget {
   @override
   build(BuildContext context) {
     var favorites = Provider.of<FavoriteProvider>(context);
-    String acronym = favorites.fahrplan!.conference!.acronym!;
+    String acronym = favorites.fahrplan!.acronym;
 
     return Scaffold(
       backgroundColor: Colors.black54,

@@ -8,9 +8,9 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
-import 'package:congress_fahrplan/utilities/fahrplan_fetcher.dart';
-import 'package:congress_fahrplan/utilities/file_storage.dart';
+import '../provider/favorite_provider.dart';
+import '../utilities/fahrplan_fetcher.dart';
+import '../utilities/file_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

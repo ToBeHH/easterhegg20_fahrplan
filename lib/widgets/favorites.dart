@@ -5,10 +5,11 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
-import 'package:congress_fahrplan/widgets/fahrplan_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/favorite_provider.dart';
+import '../widgets/fahrplan_drawer.dart';
 
 class Favorites extends StatelessWidget {
   Favorites({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class Favorites extends StatelessWidget {
           appBar: new AppBar(
             title: new Text(favorites.fahrplan!.getFavoritesTitle()),
             bottom: TabBar(
-              tabs: favorites.fahrplan!.conference!.getDaysAsText(),
+              tabs: favorites.fahrplan!.getDaysAsText(),
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: Theme.of(context).indicatorColor),
               ),

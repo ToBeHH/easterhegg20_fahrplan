@@ -21,16 +21,16 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33
 
     lintOptions {
         disable 'InvalidPackage'
     }
 
     defaultConfig {
-        applicationId "de.delusionsoftware.congress_fahrplan"
-        minSdkVersion 16
-        targetSdkVersion 30
+        applicationId "de.schulzhess.easterhegg20_fahrplan"
+        minSdkVersion 29
+        targetSdkVersion 31
         versionCode 23
         versionName '1.2.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

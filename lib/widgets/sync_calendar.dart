@@ -8,13 +8,14 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 import 'dart:collection';
 import 'dart:core';
 
-import 'package:congress_fahrplan/model/day.dart';
-import 'package:congress_fahrplan/provider/favorite_provider.dart';
-import 'package:congress_fahrplan/widgets/talk.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart';
+
+import '../model/day.dart';
+import '../model/room.dart';
+import '../provider/favorite_provider.dart';
+import '../widgets/talk.dart';
 
 class SyncCalendar extends StatelessWidget {
   final DeviceCalendarPlugin? calendarPlugin;
@@ -68,12 +69,11 @@ class SyncCalendar extends StatelessWidget {
         await calendarPlugin!.retrieveEvents(
             calendar.id,
             RetrieveEventsParams(
-                startDate:
-                    DateTime.parse(provider.fahrplan!.conference!.start!),
-                endDate: DateTime.parse(provider.fahrplan!.conference!.end!)));
+                startDate: provider.fahrplan!.start!,
+                endDate: provider.fahrplan!.end!));
     UnmodifiableListView<Event>? calendarEvents = resultExistingEvents.data;
-    print(provider.fahrplan!.conference!.start!);
-    print(provider.fahrplan!.conference!.end!);
+    print(provider.fahrplan!.start!);
+    print(provider.fahrplan!.end!);
 
     /// Sync calendar to favorites
     for (Event calendarEvent in calendarEvents!) {
@@ -105,17 +105,18 @@ class SyncCalendar extends StatelessWidget {
 
       /// If event not found, add it
       if (!eventFound) {
-        double durationH = double.parse(fav.duration!.split(":")[0]);
-        double durationM = double.parse(fav.duration!.split(":")[1]);
-        DateTime end = fav.date!.add(
-            Duration(hours: durationH.toInt(), minutes: durationM.toInt()));
         Event e = Event(calendar.id);
         e.title = fav.title;
         tz.initializeTimeZones();
-        e.start = TZDateTime.from(fav.date!, getLocation('Germany/Berlin'));
+        e.start = TZDateTime.from(
+            fav.start!, getLocation(provider.fahrplan!.timezone!));
         e.description = fav.abstract;
-        e.location = fav.room;
-        e.end = TZDateTime.from(end, getLocation('Germany/Berlin'));
+        e.location = provider.fahrplan!.rooms
+            ?.firstWhere((element) => element.id == fav.room,
+                orElse: () => Room(id: 0, name: ''))
+            .name;
+        e.end = TZDateTime.from(
+            fav.end!, getLocation(provider.fahrplan!.timezone!));
         calendarPlugin!.createOrUpdateEvent(e);
       }
     }
