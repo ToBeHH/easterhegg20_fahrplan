@@ -14,17 +14,20 @@ class FavoritedTalks {
 
   factory FavoritedTalks.fromJson(Map json) {
     return FavoritedTalks(
-      ids: json['ids'].cast<int>(),
+      ids: json['ids'].cast<String>(),
     );
   }
 
   void addFavoriteTalk(String id) {
     ids.add(id);
-    FileStorage.writeFavoritesFile('{"ids": $ids}');
+    // wrap ids with '
+    String idList = ids.map((e) => "\"$e\"").join(',');
+    FileStorage.writeFavoritesFile('{"ids": [$idList]}');
   }
 
   void removeFavoriteTalk(String id) {
     ids.remove(id);
-    FileStorage.writeFavoritesFile('{"ids": $ids}');
+    String idList = ids.map((e) => "\"$e\"").join(',');
+    FileStorage.writeFavoritesFile('{"ids": [$idList]}');
   }
 }
