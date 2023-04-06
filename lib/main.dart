@@ -109,45 +109,36 @@ class CongressFahrplanApp extends StatelessWidget {
               } else {
                 return SafeArea(
                   child: Scaffold(
-                      backgroundColor: Color(0xff000000),
-                      body: Stack(
-                        children: [
-                          Image.asset('assets/background.jpg'),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset('assets/icon.png'),
-                              Text(
-                                'Could not fetch Fahrplan!',
-                              ),
-                              Text(
-                                favoriteProvider.fahrplan!.fetchMessage!,
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
+                    backgroundColor: Color(0xffffffff),
+                    body: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset('assets/eh20logo-2023.png'),
+                        Text(
+                          'Could not fetch Fahrplan!',
+                        ),
+                        Text(
+                          favoriteProvider.fahrplan!.fetchMessage!,
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               }
             } else {
               return SafeArea(
                 child: Scaffold(
-                  backgroundColor: Color(0xff000000),
-                  body: Stack(
-                    children: [
-                      Image.asset('assets/background.jpg'),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
-                              child: Image.asset('assets/icon.png')),
-                          CircularProgressIndicator(),
-                          Container(
-                            child: Text('Fetching Fahrplan'),
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          ),
-                        ],
+                  backgroundColor: Color(0xffffffff),
+                  body: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
+                          child: Image.asset('assets/eh20logo-2023.png')),
+                      CircularProgressIndicator(),
+                      Container(
+                        child: Text('Fetching Fahrplan'),
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       ),
                     ],
                   ),
