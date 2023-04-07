@@ -87,19 +87,19 @@ class FahrplanDrawer extends StatelessWidget {
           FlatIconTextButton(
             icon: Icons.security,
             text: 'Show Data Privacy Policy',
-            onPressed: () => launchUrl(
+            onPressed: () => openBrowser(
                 'https://github.com/ToBeHH/easterhegg20_fahrplan/wiki/Datenschutzerkl%C3%A4rung---Privacy-Policy'),
           ),
           FlatIconTextButton(
             icon: Icons.bug_report,
             text: 'Report Bug',
-            onPressed: () => launchUrl(
+            onPressed: () => openBrowser(
                 'https://github.com/ToBeHH/easterhegg20_fahrplan/issues'),
           ),
           FlatIconTextButton(
             icon: Icons.color_lens,
             text: 'Design adapted from\nrC3 design by kreatur.works',
-            onPressed: () => launchUrl('https://kreatur.works/'),
+            onPressed: () => openBrowser('https://kreatur.works/'),
           ),
           Container(
             padding: EdgeInsets.fromLTRB(32, 0, 0, 0),
@@ -112,12 +112,9 @@ class FahrplanDrawer extends StatelessWidget {
     );
   }
 
-  launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  openBrowser(String url) {
+    Uri uri = Uri.parse(url);
+    launchUrl(uri); // async, but we don't care
   }
 
   showSyncCalendar(BuildContext context, FavoriteProvider favorites) async {

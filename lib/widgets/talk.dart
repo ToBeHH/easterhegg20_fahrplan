@@ -8,6 +8,8 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/room.dart';
 import '../provider/favorite_provider.dart';
@@ -141,6 +143,32 @@ class Talk extends StatelessWidget {
                               },
                             ),
                           ),
+                          Semantics(
+                            label: 'Open $title',
+                            child: ExcludeSemantics(
+                              child: IconButton(
+                                tooltip: 'Open talk.',
+                                icon: Icon(
+                                  Icons.open_in_browser,
+                                ),
+                                onPressed: () => openBrowser(
+                                    'https://cfp.eh20.easterhegg.eu/eh20/talk/$code'),
+                              ),
+                            ),
+                          ),
+                          Semantics(
+                            label: 'Share $title',
+                            child: ExcludeSemantics(
+                              child: IconButton(
+                                tooltip: 'Share talk.',
+                                icon: Icon(
+                                  Icons.share,
+                                ),
+                                onPressed: () => Share.share(
+                                    'Check out this talk: https://cfp.eh20.easterhegg.eu/eh20/talk/$code'),
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     ],
@@ -152,6 +180,11 @@ class Talk extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  openBrowser(String url) {
+    Uri uri = Uri.parse(url);
+    launchUrl(uri); // async, but we don't care
   }
 
   Semantics getCardSubtitle() {
