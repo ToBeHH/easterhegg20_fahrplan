@@ -1,4 +1,4 @@
-# congress_fahrplan
+# easterhegg20_fahrplan
 # This is the pubspec file specifying all dependencies
 # SPDX-License-Identifier: GPL-2.0-only
 # Copyright (C) 2019 - 2021 Benjamin Schilling
@@ -16,7 +16,7 @@ description: Easterhegg20 Fahrplan written in flutter
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.2.1+28
+version: 1.2.1+29
 
 environment:
   sdk: ">=2.14.0 <3.0.0"

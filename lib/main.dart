@@ -21,7 +21,7 @@ class ThemeWrapper extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Congress Fahrplan',
+      title: 'Easterhegg20 Fahrplan',
       theme: ThemeData(
         brightness: Brightness.dark,
         backgroundColor: Color(0xff000000),
