@@ -1,1 +1,0 @@
-* Weniger Traffic wird verbraucht, da der Fahrplan lokal vorgehalten wird.

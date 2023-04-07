@@ -1,1 +1,0 @@
-* Besseres Feedback wenn Kalender-Sync abgeschlossen ist

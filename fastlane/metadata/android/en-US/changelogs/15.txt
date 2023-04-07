@@ -1,1 +1,0 @@
-* Improved feedback when calendar sync is done

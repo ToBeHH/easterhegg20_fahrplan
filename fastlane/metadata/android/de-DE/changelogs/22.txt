@@ -1,1 +1,0 @@
-* Bug behoben: Fehler beim Parsen von Fahrplan JSON nicht korrekt abgefangen

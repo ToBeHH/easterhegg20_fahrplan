@@ -1,1 +1,0 @@
-* Bug behoben: Bei Neustart der App sind die Favoriten nun korrekt nach Zeit sortiert.
