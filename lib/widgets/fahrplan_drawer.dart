@@ -12,10 +12,8 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../provider/favorite_provider.dart';
-import '../utilities/fahrplan_fetcher.dart';
 import '../widgets/all_talks.dart';
 import '../widgets/favorites.dart';
-import '../widgets/flat_checkbox_text_button.dart';
 import '../widgets/flat_icon_text_button.dart';
 import '../widgets/sync_calendar.dart';
 
@@ -75,17 +73,6 @@ class FahrplanDrawer extends StatelessWidget {
                     );
                   },
                 ),
-          FahrplanFetcher.multipleSchedules
-              ? FlatCheckBoxTextButton(
-                  value: favorites.fahrplan!.settings!.getLoadFullFahrplan(),
-                  text: 'Load complete Fahrplan',
-                  onPressed: () {
-                    favorites.fahrplan!.settings!.setLoadFullFahrplan(
-                        !favorites.fahrplan!.settings!.getLoadFullFahrplan(),
-                        context);
-                  },
-                )
-              : Container(),
           FlatIconTextButton(
             icon: Icons.sync,
             text: 'Sync favorites with calendar',
@@ -95,19 +82,19 @@ class FahrplanDrawer extends StatelessWidget {
             icon: Icons.share,
             text: 'Share this app',
             onPressed: () => Share.share(
-                'Check out the $acronym Fahrplan app: https://play.google.com/store/apps/details?id=de.delusionsoftware.congress_fahrplan'),
+                'Check out the Easterhegg20 Fahrplan app: https://play.google.com/store/apps/details?id=de.schulzhess.easterhegg20_fahrplan'),
           ),
           FlatIconTextButton(
             icon: Icons.security,
             text: 'Show Data Privacy Policy',
             onPressed: () => launchUrl(
-                'https://github.com/benjaminSchilling33/congress_fahrplan/wiki/Congress-Fahrplan-Datenschutzerkl%C3%A4rung-(Privacy-Policy)'),
+                'https://github.com/ToBeHH/easterhegg20_fahrplan/wiki/Datenschutzerkl%C3%A4rung---Privacy-Policy'),
           ),
           FlatIconTextButton(
             icon: Icons.bug_report,
             text: 'Report Bug',
             onPressed: () => launchUrl(
-                'https://github.com/benjaminSchilling33/congress_fahrplan/issues'),
+                'https://github.com/ToBeHH/easterhegg20_fahrplan/issues'),
           ),
           FlatIconTextButton(
             icon: Icons.color_lens,
