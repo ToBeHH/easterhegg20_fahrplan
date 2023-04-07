@@ -7,8 +7,10 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:timezone/timezone.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/room.dart';
@@ -21,7 +23,9 @@ class Talk extends StatelessWidget {
   final String? track;
   final String? abstract;
   final DateTime? start;
+  final String? startStr;
   final DateTime? end;
+  final int? duration;
   final String? room;
   final List<Person>? speakers;
   bool? favorite;
@@ -32,14 +36,15 @@ class Talk extends StatelessWidget {
       this.track,
       this.abstract,
       this.start,
+      this.startStr,
       this.end,
+      this.duration,
       this.room,
       this.speakers,
       this.favorite});
 
-  factory Talk.fromJson(var json, List<Person> speakers, List<Room> rooms) {
-    print("talk fromJson");
-    print(json);
+  factory Talk.fromJson(
+      var json, String timezone, List<Person> speakers, List<Room> rooms) {
     return Talk(
       code: json['code'] != null ? json['code'] : 0,
       title: json['title'] != null ? json['title'] : "",
@@ -52,7 +57,12 @@ class Talk extends StatelessWidget {
               .name
           : "",
       start: DateTime.parse(json['start']),
+      startStr: DateFormat.Md().add_Hm().format(TZDateTime.from(
+          DateTime.parse(json['start']), getLocation(timezone!))),
       end: DateTime.parse(json['end']),
+      duration: DateTime.parse(json['end'])
+          .difference(DateTime.parse(json['start']))
+          .inHours,
       speakers: json['speakers'] != null
           ? jsonToSpeakerList(json['speakers'], speakers)
           : null,
@@ -190,14 +200,14 @@ class Talk extends StatelessWidget {
   Semantics getCardSubtitle() {
     String textString = '';
     textString = textString +
-        ('$start' != ''
-            ? ('$room' != '' ? '$start' + ' - ' : '$start')
+        ('$startStr' != ''
+            ? ('$room' != '' ? '$startStr' + ' - ' : '$startStr')
             : ' - ');
     textString = textString +
         ('$room' != '' ? ('$track' != '' ? '$room' + ' - ' : '$room') : ' - ');
     textString = textString + ('$track' != '' ? '$track' : ' - ');
     return Semantics(
-        label: 'Start $start, Room $room, Track $track',
+        label: 'Start $startStr, Room $room, Track $track',
         child: ExcludeSemantics(child: Text(textString)));
   }
 
@@ -205,10 +215,10 @@ class Talk extends StatelessWidget {
     List<Widget> widgets = [];
 
     /// Add the start details
-    if (start != '') {
+    if (startStr != '') {
       widgets.add(
         Semantics(
-          label: 'Start $start',
+          label: 'Start $startStr',
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -217,7 +227,7 @@ class Talk extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$start',
+                  '$startStr',
                 ),
               ],
             ),
@@ -230,7 +240,7 @@ class Talk extends StatelessWidget {
     if (end != '') {
       widgets.add(
         Semantics(
-          label: 'End $end',
+          label: 'Duration $duration hours',
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -239,7 +249,7 @@ class Talk extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$end',
+                  '$duration h',
                 ),
               ],
             ),
