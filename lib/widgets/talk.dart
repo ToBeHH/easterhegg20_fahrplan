@@ -62,7 +62,7 @@ class Talk extends StatelessWidget {
       end: DateTime.parse(json['end']),
       duration: DateTime.parse(json['end'])
           .difference(DateTime.parse(json['start']))
-          .inHours,
+          .inMinutes,
       speakers: json['speakers'] != null
           ? jsonToSpeakerList(json['speakers'], speakers)
           : null,
@@ -240,7 +240,7 @@ class Talk extends StatelessWidget {
     if (end != '') {
       widgets.add(
         Semantics(
-          label: 'Duration $duration hours',
+          label: 'Duration $duration minutes',
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -249,7 +249,7 @@ class Talk extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$duration h',
+                  '$duration minutes',
                 ),
               ],
             ),

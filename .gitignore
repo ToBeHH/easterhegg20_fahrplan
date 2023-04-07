@@ -77,3 +77,4 @@ key.properties
 /android/settings_aar.gradle
 /ios/Flutter/flutter_export_environment.sh
 /android/app/upload-keystore.jks
+/Fahrplan.apk
