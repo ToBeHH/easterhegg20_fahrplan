@@ -75,6 +75,8 @@ class Fahrplan {
       }
     }
 
+    print("Conference goes from: $minStart, to: $maxEnd");
+
     return Fahrplan(
       version: json['version'],
       timezone: json['timezone'],

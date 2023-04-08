@@ -75,6 +75,7 @@ class SyncCalendar extends StatelessWidget {
     UnmodifiableListView<Event>? calendarEvents = resultExistingEvents.data;
     print(provider.fahrplan!.start!);
     print(provider.fahrplan!.end!);
+    print(calendarEvents);
 
     /// Sync calendar to favorites
     for (Event calendarEvent in calendarEvents!) {
@@ -103,6 +104,7 @@ class SyncCalendar extends StatelessWidget {
           eventFound = true;
         }
       }
+      print("Event ${fav.title} found: $eventFound");
 
       /// If event not found, add it
       if (!eventFound) {
