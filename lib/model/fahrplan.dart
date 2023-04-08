@@ -5,10 +5,12 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
+import 'package:easterhegg20_fahrplan/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_view_indicators/linear_progress_page_indicator.dart';
 
+import '../generated/l10n.dart';
 import '../model/favorited_talks.dart';
 import '../model/settings.dart';
 import '../widgets/fahrplan_drawer.dart';
@@ -87,8 +89,6 @@ class Fahrplan {
     );
   }
 
-  String get acronym => "Easterhegg20";
-
   Widget buildDayLayout(BuildContext context) {
     dayTabCache = TabBarView(
       children: buildDayTabs(),
@@ -97,10 +97,10 @@ class Fahrplan {
       length: days!.length,
       child: new Scaffold(
         appBar: new AppBar(
-          title: Text(getFahrplanTitle()),
+          title: Text(S.of(context).overviewTitleWithEvent(Constants.acronym)),
           bottom: PreferredSize(
             child: TabBar(
-              tabs: getDaysAsText(),
+              tabs: getDaysAsText(context),
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: Theme.of(context).indicatorColor),
               ),
@@ -109,7 +109,7 @@ class Fahrplan {
           ),
         ),
         drawer: FahrplanDrawer(
-          title: 'Overview',
+          title: S.of(context).overviewTitle,
         ),
         body: dayTabCache,
       ),
@@ -141,16 +141,15 @@ class Fahrplan {
     return dayColumns;
   }
 
-  List<Widget> getDaysAsText() {
+  List<Widget> getDaysAsText(BuildContext context) {
     List<Widget> dayTexts = [];
     for (Day d in days!) {
       if (d.talks!.length == 0) {
         continue;
       }
-      String weekday = new DateFormat.E().format(d.date!);
 
       String dateString =
-          d.date!.month.toString() + '-' + d.date!.day.toString();
+          DateFormat(S.of(context).dayDateFormat).format(d.date!);
       String semanticsDay = new DateFormat.EEEE().format(d.date!) +
           ' ' +
           new DateFormat.yMMMMd().format(d.date!);
@@ -159,7 +158,7 @@ class Fahrplan {
           label: semanticsDay,
           child: ExcludeSemantics(
             child: Text(
-              '$weekday | $dateString',
+              dateString,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -175,7 +174,8 @@ class Fahrplan {
   Widget buildRoomLayout(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: Text(getFahrplanTitle() + ' - This view is still experimental'),
+        title: Text(S.of(context).overviewTitleWithEvent(Constants.acronym) +
+            ' - This view is still experimental'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -248,7 +248,7 @@ class Fahrplan {
       padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).appBarTheme.color,
+          color: Theme.of(context).appBarTheme.backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Column(
@@ -294,13 +294,5 @@ class Fahrplan {
       );
     }
     return dayColumns;
-  }
-
-  String getFahrplanTitle() {
-    return 'Easterhegg20 Fahrplan';
-  }
-
-  String getFavoritesTitle() {
-    return 'Favorites - Easterhegg20';
   }
 }

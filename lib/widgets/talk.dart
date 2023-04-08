@@ -5,6 +5,7 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
+import 'package:easterhegg20_fahrplan/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ import 'package:share/share.dart';
 import 'package:timezone/timezone.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../generated/l10n.dart';
 import '../model/room.dart';
 import '../provider/favorite_provider.dart';
 
@@ -43,8 +45,9 @@ class Talk extends StatelessWidget {
       this.speakers,
       this.favorite});
 
-  factory Talk.fromJson(
-      var json, String timezone, List<Person> speakers, List<Room> rooms) {
+  factory Talk.fromJson(var json, String dateFormat, String timezone,
+      List<Person> speakers, List<Room> rooms) {
+    var location = getLocation(timezone);
     return Talk(
       code: json['code'] != null ? json['code'] : 0,
       title: json['title'] != null ? json['title'] : "",
@@ -57,8 +60,8 @@ class Talk extends StatelessWidget {
               .name
           : "",
       start: DateTime.parse(json['start']),
-      startStr: DateFormat.Md().add_Hm().format(TZDateTime.from(
-          DateTime.parse(json['start']), getLocation(timezone!))),
+      startStr: DateFormat(dateFormat)
+          .format(TZDateTime.from(DateTime.parse(json['start']), location)),
       end: DateTime.parse(json['end']),
       duration: DateTime.parse(json['end'])
           .difference(DateTime.parse(json['start']))
@@ -89,13 +92,13 @@ class Talk extends StatelessWidget {
       child: Semantics(
         child: ListTile(
           title: Semantics(
-              label: 'Talk title, $title',
+              label: S.of(context).talkLabelTitle(title!),
               child: ExcludeSemantics(child: Text(title!))),
           subtitle: getCardSubtitle(),
           leading: Ink(
             child: Consumer<FavoriteProvider>(
               builder: (context, favoriteProvider, child) => IconButton(
-                tooltip: "Add talk $title to favorites.",
+                tooltip: S.of(context).talkTooltipAdd(title!),
                 icon: Icon(
                   favorite! ? Icons.favorite : Icons.favorite_border,
                 ),
@@ -105,10 +108,10 @@ class Talk extends StatelessWidget {
                   favoriteProvider.favoriteTalk(this, day);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: favorite == true
-                        ? Text('\"$title\" added to favorites.')
-                        : Text('\"$title\" removed from favorites.'),
+                        ? Text(S.of(context).talkFavAdded(title!))
+                        : Text(S.of(context).talkFavRemoved(title!)),
                     action: SnackBarAction(
-                      label: "Revert",
+                      label: S.of(context).talkFavRevertButton,
                       onPressed: () => favoriteProvider.favoriteTalk(this, day),
                     ),
                     duration: Duration(seconds: 3),
@@ -122,7 +125,7 @@ class Talk extends StatelessWidget {
               shape: CircleBorder(),
             ),
             child: IconButton(
-              tooltip: "Show talk $title details.",
+              tooltip: S.of(context).talkTooltipInfo(title!),
               icon: Icon(
                 Icons.info,
                 color: Colors.white,
@@ -136,17 +139,17 @@ class Talk extends StatelessWidget {
                     children: <Widget>[
                       BlockSemantics(
                         child: Column(
-                          children: getDetails(),
+                          children: getDetails(context),
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Semantics(
-                            label: 'Copy abstract.',
+                            label: S.of(context).talkLabelCopyAbstract,
                             child: IconButton(
                               icon: Icon(Icons.content_copy),
-                              tooltip: 'Copy abstract.',
+                              tooltip: S.of(context).talkTooltipCopyAbstract,
                               onPressed: () {
                                 Clipboard.setData(
                                     ClipboardData(text: abstract));
@@ -154,28 +157,30 @@ class Talk extends StatelessWidget {
                             ),
                           ),
                           Semantics(
-                            label: 'Open $title',
+                            label: S.of(context).talkLabelOpen(title!),
                             child: ExcludeSemantics(
                               child: IconButton(
-                                tooltip: 'Open talk.',
+                                tooltip: S.of(context).talkTooltipOpen,
                                 icon: Icon(
                                   Icons.open_in_browser,
                                 ),
-                                onPressed: () => openBrowser(
-                                    'https://cfp.eh20.easterhegg.eu/eh20/talk/$code'),
+                                onPressed: () =>
+                                    openBrowser(Constants.getTalkUrl(code!)),
                               ),
                             ),
                           ),
                           Semantics(
-                            label: 'Share $title',
+                            label: S.of(context).talkLabelShare(title!),
                             child: ExcludeSemantics(
                               child: IconButton(
-                                tooltip: 'Share talk.',
+                                tooltip: S.of(context).talkTooltipShare,
                                 icon: Icon(
                                   Icons.share,
                                 ),
-                                onPressed: () => Share.share(
-                                    'Check out this talk: https://cfp.eh20.easterhegg.eu/eh20/talk/$code'),
+                                onPressed: () => Share.share(S
+                                    .of(context)
+                                    .shareTalkText(
+                                        Constants.getTalkUrl(code!))),
                               ),
                             ),
                           ),
@@ -211,14 +216,14 @@ class Talk extends StatelessWidget {
         child: ExcludeSemantics(child: Text(textString)));
   }
 
-  List<Widget> getDetails() {
+  List<Widget> getDetails(BuildContext context) {
     List<Widget> widgets = [];
 
     /// Add the start details
     if (startStr != '') {
       widgets.add(
         Semantics(
-          label: 'Start $startStr',
+          label: S.of(context).talkDetailsStartLabel(startStr!),
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -237,10 +242,10 @@ class Talk extends StatelessWidget {
     }
 
     /// Add the duration details
-    if (end != '') {
+    if (duration! > 0) {
       widgets.add(
         Semantics(
-          label: 'Duration $duration minutes',
+          label: S.of(context).talkDetailsDurationLabel(duration!),
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -248,9 +253,7 @@ class Talk extends StatelessWidget {
                   child: Icon(Icons.hourglass_empty),
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
-                Text(
-                  '$duration minutes',
-                ),
+                Text(S.of(context).talkDetailsDurationText(duration!)),
               ],
             ),
           ),
@@ -262,7 +265,7 @@ class Talk extends StatelessWidget {
     if (room != '') {
       widgets.add(
         Semantics(
-          label: 'Room $room',
+          label: S.of(context).talkDetailsRoomLabel(room!),
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -270,9 +273,7 @@ class Talk extends StatelessWidget {
                   child: Icon(Icons.room),
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
-                Text(
-                  '$room',
-                ),
+                Text('$room'),
               ],
             ),
           ),
@@ -284,7 +285,7 @@ class Talk extends StatelessWidget {
     if (track != '') {
       widgets.add(
         Semantics(
-          label: 'Track $track',
+          label: S.of(context).talkDetailsTrackLabel(track!),
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -306,7 +307,7 @@ class Talk extends StatelessWidget {
     if (speakers!.length > 0) {
       for (Person p in speakers!) {
         widgets.add(Semantics(
-          label: 'Presenter ${p.name}',
+          label: S.of(context).talkDetailsSpeakerLabel(p.name!),
           child: ExcludeSemantics(
             child: Row(
               children: <Widget>[
@@ -328,7 +329,7 @@ class Talk extends StatelessWidget {
     if (abstract != '') {
       widgets.add(
         Semantics(
-          label: 'Abstract $abstract',
+          label: S.of(context).talkDetailsAbstractLabel(abstract!),
           child: ExcludeSemantics(
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -336,7 +337,7 @@ class Talk extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Abstract: ',
+                    S.of(context).talkDetailsAbstractTitle,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text('$abstract'),

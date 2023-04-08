@@ -6,11 +6,13 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
 import 'package:device_calendar/device_calendar.dart';
+import 'package:easterhegg20_fahrplan/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../generated/l10n.dart';
 import '../provider/favorite_provider.dart';
 import '../widgets/all_talks.dart';
 import '../widgets/favorites.dart';
@@ -24,7 +26,6 @@ class FahrplanDrawer extends StatelessWidget {
   @override
   build(BuildContext context) {
     var favorites = Provider.of<FavoriteProvider>(context);
-    String acronym = favorites.fahrplan!.acronym;
 
     return Scaffold(
       backgroundColor: Colors.black54,
@@ -34,7 +35,7 @@ class FahrplanDrawer extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6,
         ),
         leading: Semantics(
-          label: 'Close menu',
+          label: S.of(context).drawerLabelClose,
           child: IconButton(
             icon: Icon(Icons.navigate_before),
             onPressed: () => Navigator.pop(context),
@@ -43,10 +44,10 @@ class FahrplanDrawer extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          title! == 'Favorites'
+          title! == S.of(context).favoritesTitle // it is exactly this string
               ? FlatIconTextButton(
                   icon: Icons.calendar_today,
-                  text: 'Show Overview',
+                  text: S.of(context).drawerOverviewButton,
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -62,9 +63,8 @@ class FahrplanDrawer extends StatelessWidget {
                 )
               : FlatIconTextButton(
                   icon: Icons.favorite,
-                  text: 'Show Favorites',
+                  text: S.of(context).drawerFavouritesButton,
                   onPressed: () {
-                    print('Show favorites pressed.');
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -75,26 +75,24 @@ class FahrplanDrawer extends StatelessWidget {
                 ),
           FlatIconTextButton(
             icon: Icons.sync,
-            text: 'Sync favorites with calendar',
+            text: S.of(context).drawerSyncCalendarButton,
             onPressed: () => showSyncCalendar(context, favorites),
           ),
           FlatIconTextButton(
             icon: Icons.share,
-            text: 'Share this app',
+            text: S.of(context).drawerShareAppButton,
             onPressed: () => Share.share(
-                'Check out the Easterhegg20 Fahrplan app: https://play.google.com/store/apps/details?id=de.schulzhess.easterhegg20_fahrplan'),
+                S.of(context).shareThisApp(Constants.PLAYSTORE_URL)),
           ),
           FlatIconTextButton(
             icon: Icons.security,
-            text: 'Show Data Privacy Policy',
-            onPressed: () => openBrowser(
-                'https://github.com/ToBeHH/easterhegg20_fahrplan/wiki/Datenschutzerkl%C3%A4rung---Privacy-Policy'),
+            text: S.of(context).drawerPrivacyPolicyButton,
+            onPressed: () => openBrowser(Constants.PRIVACY_POLICY_URL),
           ),
           FlatIconTextButton(
             icon: Icons.bug_report,
-            text: 'Report Bug',
-            onPressed: () => openBrowser(
-                'https://github.com/ToBeHH/easterhegg20_fahrplan/issues'),
+            text: S.of(context).drawerReportBugButton,
+            onPressed: () => openBrowser(Constants.REPORT_BUG_URL),
           ),
           FlatIconTextButton(
             icon: Icons.color_lens,
@@ -104,7 +102,7 @@ class FahrplanDrawer extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(32, 0, 0, 0),
             child: Text(
-              'Version: ' + favorites.packageVersion,
+              S.of(context).version(favorites.packageVersion),
             ),
           ),
         ],
@@ -128,7 +126,7 @@ class FahrplanDrawer extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => SimpleDialog(
           contentPadding: EdgeInsets.all(10),
-          title: Text('Sync favorites'),
+          title: Text(S.of(context).drawerSyncCalendarTitle),
           children: <Widget>[
             SyncCalendar(
               calendarPlugin: deviceCalendar,

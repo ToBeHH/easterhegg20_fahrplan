@@ -5,10 +5,14 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
+import 'package:easterhegg20_fahrplan/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../generated/l10n.dart';
 import '../provider/favorite_provider.dart';
 import '../utilities/fahrplan_fetcher.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AllTalks extends StatelessWidget {
   final ThemeData? theme;
@@ -20,7 +24,14 @@ class AllTalks extends StatelessWidget {
     var favorites = Provider.of<FavoriteProvider>(context);
     return new MaterialApp(
       theme: theme,
-      title: favorites.fahrplan!.getFahrplanTitle(),
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      title: S.of(context).overviewTitleWithEvent(Constants.acronym),
       home: OrientationBuilder(
         builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
@@ -43,25 +54,23 @@ class AllTalks extends StatelessWidget {
     /// Show only when URLs are outdated and notice has not been dismissed yet
     if ((FahrplanFetcher.oldUrls
                 .contains(FahrplanFetcher.completeFahrplanUrl) ||
-            FahrplanFetcher.oldUrls
-                .contains(FahrplanFetcher.minimalFahrplanUrl)) &&
+            FahrplanFetcher.oldUrls.contains(Constants.FAHRPLAN_URL)) &&
         !provider.oldTalkNoticeDismissed) {
       showDialog(
         context: context,
         builder: (BuildContext context) => SimpleDialog(
           contentPadding: EdgeInsets.all(10),
-          title: Text(
-              'The RC3 Fahrplan is not yet released, therefore the Fahrplan from last year is shown.'),
+          title: Text(S.of(context).oldTalkNoticeTitle),
           children: <Widget>[
             Semantics(
-              label: 'Dismiss',
+              label: S.of(context).oldTalkLabelDismiss,
               child: ExcludeSemantics(
                 child: TextButton(
                   onPressed: () {
                     provider.oldTalkNoticeDismissed = true;
                     Navigator.pop(context);
                   },
-                  child: Text('Dismiss'),
+                  child: Text(S.of(context).oldTalkLabelText),
                 ),
               ),
             )

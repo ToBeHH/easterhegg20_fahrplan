@@ -12,6 +12,8 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants.dart';
+import '../generated/l10n.dart';
 import '../model/fahrplan.dart';
 import '../model/favorited_talks.dart';
 import '../model/settings.dart';
@@ -19,9 +21,6 @@ import '../utilities/fahrplan_decoder.dart';
 import '../utilities/file_storage.dart';
 
 class FahrplanFetcher {
-  static String minimalFahrplanUrl =
-      'https://cfp.eh20.easterhegg.eu/eh20/schedule/v/0.15/widget/v2.json';
-
   static bool multipleSchedules = false;
 
   static String completeFahrplanUrl = '';
@@ -80,15 +79,8 @@ class FahrplanFetcher {
         connectivityResult == ConnectivityResult.wifi) {
       /// Fetch the fahrplan depending on what is set in the settings,
       /// if the timeout expires load the local fahrplan
-      String requestString = FahrplanFetcher.minimalFahrplanUrl;
+      String requestString = Constants.FAHRPLAN_URL;
 
-      if (settings.getLoadFullFahrplan() && multipleSchedules) {
-        /// Complete Fahrplan
-        requestString = FahrplanFetcher.completeFahrplanUrl;
-      } else {
-        /// Only Main Rooms Fahrplan
-        requestString = FahrplanFetcher.minimalFahrplanUrl;
-      }
       final Uri uri = Uri.parse('$requestString');
       final response = await http
           .get(
@@ -137,7 +129,7 @@ class FahrplanFetcher {
       } else {
         return new Fahrplan(
           fetchState: FahrplanFetchState.timeout,
-          fetchMessage: 'Please check your network connection.',
+          fetchMessage: S.current.errorNoInternet,
         );
       }
 
@@ -154,13 +146,13 @@ class FahrplanFetcher {
       } else {
         return new Fahrplan(
           fetchState: FahrplanFetchState.noDataConnection,
-          fetchMessage: 'Please enable mobile data or Wifi.',
+          fetchMessage: S.current.errorNoDataConnection,
         );
       }
     }
     return new Fahrplan(
       fetchState: FahrplanFetchState.noDataConnection,
-      fetchMessage: 'Could not fetch Fahrplan.',
+      fetchMessage: S.current.errorNoData,
     );
   }
 }

@@ -24,6 +24,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations: # I18N
+    sdk: flutter
 
   http: ^0.13.5
   path_provider: ^2.0.14
@@ -33,16 +35,25 @@ dependencies:
   url_launcher: ^6.1.10
   connectivity_plus: ^3.0.3
   flutter_svg: ^2.0.4
-  intl: ^0.18.0
+  intl: ^0.17.0
   share: ^2.0.4
   device_calendar: ^4.3.1
   package_info: ^2.0.2
   timezone: ^0.9.1
 
 dev_dependencies:
+  flutter_driver:
+    sdk: flutter
+  flutter_oss_licenses: ^2.0.1
   flutter_test:
     sdk: flutter
+  intl_utils: ^2.8.2
 
+# see https://plugins.jetbrains.com/plugin/13666-flutter-intl
+# arb file format: https://localizely.com/flutter-arb/
+flutter_intl:
+  enabled: true
+  class_name: S
 # The following section is specific to Flutter.
 flutter:
 

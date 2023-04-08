@@ -12,6 +12,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
+import '../generated/l10n.dart';
 import '../model/day.dart';
 import '../model/room.dart';
 import '../provider/favorite_provider.dart';
@@ -123,10 +124,10 @@ class SyncCalendar extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text('Sync successful'),
+        title: Text(S.of(context).syncCalendarSuccessTitle),
         actions: <Widget>[
           TextButton(
-            child: Text('Ok'),
+            child: Text(S.of(context).syncCalendarSuccessButton),
             onPressed: () => Navigator.pop(context),
           )
         ],

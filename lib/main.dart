@@ -5,9 +5,12 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 -2021 Benjamin Schilling
 */
 
+import 'package:easterhegg20_fahrplan/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'generated/l10n.dart';
 import 'model/fahrplan.dart';
 import 'provider/favorite_provider.dart';
 import 'widgets/all_talks.dart';
@@ -21,7 +24,14 @@ class ThemeWrapper extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Easterhegg20 Fahrplan',
+      title: Constants.acronym,
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         brightness: Brightness.dark,
         backgroundColor: Color(0xff000000),
@@ -115,7 +125,7 @@ class CongressFahrplanApp extends StatelessWidget {
                       children: <Widget>[
                         Image.asset('assets/eh20logo-2023.png'),
                         Text(
-                          'Could not fetch Fahrplan!',
+                          S.of(context).loadingError,
                         ),
                         Text(
                           favoriteProvider.fahrplan!.fetchMessage!,
@@ -137,7 +147,7 @@ class CongressFahrplanApp extends StatelessWidget {
                           child: Image.asset('assets/eh20logo-2023.png')),
                       CircularProgressIndicator(),
                       Container(
-                        child: Text('Fetching Fahrplan'),
+                        child: Text(S.of(context).loading),
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       ),
                     ],

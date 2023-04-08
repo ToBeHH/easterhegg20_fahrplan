@@ -7,6 +7,7 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 
 import 'package:timezone/data/latest.dart' as tz;
 
+import '../generated/l10n.dart';
 import '../model/day.dart';
 import '../model/fahrplan.dart';
 import '../model/favorited_talks.dart';
@@ -34,7 +35,8 @@ class FahrplanDecoder {
     tz.initializeTimeZones();
     List<Talk> talks = [];
     for (var rn in json['talks']) {
-      talks.add(Talk.fromJson(rn, f.timezone!, speakers, f.rooms!));
+      talks.add(Talk.fromJson(
+          rn, S.current.dateFormat, f.timezone!, speakers, f.rooms!));
     }
 
     // Initialize days from talks
