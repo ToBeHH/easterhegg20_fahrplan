@@ -2,8 +2,8 @@
  * Global constants
  */
 class Constants {
-  static String FAHRPLAN_URL =
-      'https://cfp.eh20.easterhegg.eu/eh20/schedule/v/0.20/widget/v2.json';
+  static String getFahrplanUrl(version) =>
+      'https://cfp.eh20.easterhegg.eu/eh20/schedule/v/$version/widget/v2.json';
 
   static String PLAYSTORE_URL =
       "https://play.google.com/store/apps/details?id=de.schulzhess.easterhegg20_fahrplan";
@@ -17,6 +17,6 @@ class Constants {
   static String get acronym => "Easterhegg20";
 
   static getTalkUrl(talkId) {
-    return "https://cfp.eh20.easterhegg.eu/eh20/talk/${talkId}";
+    return "https://cfp.eh20.easterhegg.eu/eh20/talk/$talkId";
   }
 }

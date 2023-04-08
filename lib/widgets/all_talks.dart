@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 
 import '../generated/l10n.dart';
 import '../provider/favorite_provider.dart';
-import '../utilities/fahrplan_fetcher.dart';
 
 class AllTalks extends StatelessWidget {
   final ThemeData? theme;
@@ -36,47 +35,13 @@ class AllTalks extends StatelessWidget {
         builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
             ///Portrait Orientation
-            Future.delayed(
-                Duration.zero, () => openOutdatedDialog(context, favorites));
             return favorites.fahrplan!.buildDayLayout(context);
           } else {
             ///Landscape Orientation
-            Future.delayed(
-                Duration.zero, () => openOutdatedDialog(context, favorites));
             return favorites.fahrplan!.buildRoomLayout(context);
           }
         },
       ),
     );
-  }
-
-  openOutdatedDialog(BuildContext context, FavoriteProvider provider) {
-    /// Show only when URLs are outdated and notice has not been dismissed yet
-    if ((FahrplanFetcher.oldUrls
-                .contains(FahrplanFetcher.completeFahrplanUrl) ||
-            FahrplanFetcher.oldUrls.contains(Constants.FAHRPLAN_URL)) &&
-        !provider.oldTalkNoticeDismissed) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => SimpleDialog(
-          contentPadding: EdgeInsets.all(10),
-          title: Text(S.of(context).oldTalkNoticeTitle),
-          children: <Widget>[
-            Semantics(
-              label: S.of(context).oldTalkLabelDismiss,
-              child: ExcludeSemantics(
-                child: TextButton(
-                  onPressed: () {
-                    provider.oldTalkNoticeDismissed = true;
-                    Navigator.pop(context);
-                  },
-                  child: Text(S.of(context).oldTalkLabelText),
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
   }
 }

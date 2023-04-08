@@ -121,6 +121,11 @@ class FileStorage {
     return File('$path/settings.json');
   }
 
+  static Future<File> get localVersionFile async {
+    final path = await localPath;
+    return File('$path/version.json');
+  }
+
   static Future<File> writeSettingsFile(String data) async {
     final file = await localSettingsFile;
 
@@ -133,12 +138,29 @@ class FileStorage {
       final file = await localSettingsFile;
 
       // Read the file
-      String contents = await file.readAsString();
-
-      return contents;
+      return await file.readAsString();
     } catch (e) {
       // If we encounter an error, return 0
       return "";
+    }
+  }
+
+  static Future<File> writeVersionFile(String version) async {
+    final file = await localVersionFile;
+
+    // Write the file
+    return file.writeAsString('$version', mode: FileMode.write);
+  }
+
+  static Future<String> readVersionFile() async {
+    try {
+      final file = await localVersionFile;
+
+      // Read the file
+      return await file.readAsString();
+    } catch (e) {
+      // If we encounter an error, return 0
+      return "0.1";
     }
   }
 }

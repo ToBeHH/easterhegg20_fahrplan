@@ -23,13 +23,6 @@ import '../utilities/file_storage.dart';
 class FahrplanFetcher {
   static bool multipleSchedules = false;
 
-  static String completeFahrplanUrl = '';
-
-  static List<String> oldUrls = [
-    'https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/schedule.json',
-    'https://data.c3voc.de/rC3/everything.schedule.json'
-  ];
-
   static Future<Fahrplan> fetchFahrplan() async {
     late File fahrplanFile;
     DateTime fahrplanFileLastModified = DateTime.now();
@@ -71,15 +64,41 @@ class FahrplanFetcher {
     /// Load the Settings
     Settings settings = await Settings.restoreSettingsFromFile();
 
+    String version = "0.20";
+
     /// Fetch the Fahrplan from the REST API
     /// Check for network connectivity
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
+      Uri changelog =
+          Uri.parse('https://cfp.eh20.easterhegg.eu/eh20/schedule/changelog/');
+      final responseChangelog = await http
+          .get(changelog)
+          .timeout(const Duration(seconds: 20))
+          .catchError((e) {});
+      if (responseChangelog.statusCode == 200 &&
+          responseChangelog.bodyBytes.length > 0) {
+        String changelogHtml = utf8.decode(responseChangelog.bodyBytes);
+        // get version from regex match from <h4 id="0.20"> tag
+        RegExp versionRegex = RegExp(r'<h4 id="(.*)">');
+        version = versionRegex.firstMatch(changelogHtml)![1]!;
+        print("Got version $version from changelog");
+        FileStorage.writeVersionFile('$version');
+      } else if (responseChangelog.statusCode == 304) {
+        version = await FileStorage.readVersionFile();
+        print("Got version $version from file");
+      } else {
+        return new Fahrplan(
+          fetchState: FahrplanFetchState.noDataConnection,
+          fetchMessage: S.current.errorNoDataConnection,
+        );
+      }
+
       /// Fetch the fahrplan depending on what is set in the settings,
       /// if the timeout expires load the local fahrplan
-      String requestString = Constants.FAHRPLAN_URL;
+      String requestString = Constants.getFahrplanUrl(version);
 
       final Uri uri = Uri.parse('$requestString');
       final response = await http
@@ -91,7 +110,7 @@ class FahrplanFetcher {
             },
           )
           .timeout(const Duration(seconds: 20))
-          .catchError((e) {});
+          .catchError((e) => http.Response('', 304));
 
       ///If the HTTP Status code is 200 OK use the Fahrplan from the response,
       ///Else if the HTTP Status Code is 304 Not Modified use the local file.

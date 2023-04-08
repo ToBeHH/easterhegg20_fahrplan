@@ -195,18 +195,6 @@
     "@talkDetailsAbstractTitle": {
         "description": "Title for the abstract of a talk"
     },
-  "oldTalkNoticeTitle": "The Fahrplan is not yet released, therefore the Fahrplan from last year is shown.",
-    "@oldTalkNoticeTitle": {
-        "description": "Title for the notice that the Fahrplan is not yet released"
-    },
-  "oldTalkLabelDismiss": "Dismiss",
-    "@oldTalkLabelDismiss": {
-        "description": "Label for the dismiss button"
-    },
-  "oldTalkLabelText": "Dismiss",
-  "@oldTalkLabelText": {
-    "description": "Text for the dismiss button"
-  },
   "syncCalendarSuccessTitle": "Sync successful",
     "@syncCalendarSuccessTitle": {
         "description": "Title for the success message when the calendar is synced"
