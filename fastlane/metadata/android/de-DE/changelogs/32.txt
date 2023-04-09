@@ -1,0 +1,3 @@
+* Internationalisierung (deutsch/englisch)
+* Immer die aktuellste Version des Fahrplans holen
+* Alarm für Talks

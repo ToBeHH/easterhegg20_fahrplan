@@ -26,8 +26,8 @@ class FavoriteProvider extends ChangeNotifier {
   UnmodifiableListView<Widget> get favorites =>
       UnmodifiableListView(_favorites);
 
-  FavoriteProvider() {
-    futureFahrplan = FahrplanFetcher.fetchFahrplan();
+  FavoriteProvider(bool fromCache) {
+    futureFahrplan = FahrplanFetcher.fetchFahrplan(fromCache);
   }
 
   void initializeProvider(Fahrplan fahrplan) async {

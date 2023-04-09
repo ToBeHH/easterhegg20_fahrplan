@@ -5,9 +5,11 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 -2021 Benjamin Schilling
 */
 
+import 'package:alarm/alarm.dart';
 import 'package:easterhegg20_fahrplan/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
@@ -15,7 +17,14 @@ import 'model/fahrplan.dart';
 import 'provider/favorite_provider.dart';
 import 'widgets/all_talks.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
+  await Alarm.init();
   runApp(ThemeWrapper());
 }
 
@@ -104,7 +113,7 @@ class CongressFahrplanApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => FavoriteProvider(),
+      create: (context) => FavoriteProvider(false),
       child: Consumer<FavoriteProvider>(
         builder: (context, favoriteProvider, child) => FutureBuilder<Fahrplan>(
           future: favoriteProvider.futureFahrplan,

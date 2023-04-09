@@ -145,6 +145,9 @@ class Fahrplan {
 
   List<Widget> getDaysAsText(BuildContext context) {
     List<Widget> dayTexts = [];
+    DateTime today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
     for (Day d in days!) {
       if (d.talks!.length == 0) {
         continue;
@@ -158,6 +161,7 @@ class Fahrplan {
       dayTexts.add(
         new Semantics(
           label: semanticsDay,
+          focused: today == d.date!,
           child: ExcludeSemantics(
             child: Text(
               dateString,

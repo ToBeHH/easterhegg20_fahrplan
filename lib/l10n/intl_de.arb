@@ -27,6 +27,10 @@
   "talkDetailsSpeakerLabel": "Vortragende*r {name}",
   "talkDetailsAbstractLabel": "Zusammenfassung {abstract}",
   "talkDetailsAbstractTitle": "Zusammenfassung: ",
+  "talkLabelAlarmOff": "Alarm für {title} ausstellen.",
+  "talkTooltipAlarmOff": "Alarm ausstellen.",
+  "talkLabelAlarmOn": "Alarm für {title} setzen.",
+  "talkTooltipAlarmOn": "10 Minuten vor Beginn des Talks einen Alarm setzen.",
   "syncCalendarSuccessTitle": "Abgleich erfolgreich",
   "syncCalendarSuccessButton": "Ok",
   "favoritesTitle": "Favoriten",
@@ -45,5 +49,11 @@
   "errorNoData": "Kann den Fahrplan nicht laden.",
   "overviewTitle": "Übersicht",
   "overviewTitleWithEvent": "{event} Fahrplan",
-  "favoritesTitleWithEvent": "Favoriten - {event}"
+  "favoritesTitleWithEvent": "Favoriten - {event}",
+  "alarmTalkStarts": "Dein Talk {title} startet bald...",
+  "alarmTalkRoom": "Raum: {room}",
+  "alarmSnoozeButton": "Wiederholen",
+  "alarmStopButton": "Beenden",
+  "alarmNotificationTitle": "Dein Talk start bald",
+  "alarmSnackBar": "Alarm ist gesetzt"
 }

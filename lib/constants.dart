@@ -2,6 +2,8 @@
  * Global constants
  */
 class Constants {
+  static int LOADING_TIMEOUT = 10;
+
   static String getFahrplanUrl(version) =>
       'https://cfp.eh20.easterhegg.eu/eh20/schedule/v/$version/widget/v2.json';
 

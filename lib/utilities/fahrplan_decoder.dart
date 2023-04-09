@@ -5,6 +5,7 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2019 - 2021 Benjamin Schilling
 */
 
+import 'package:alarm/alarm.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import '../generated/l10n.dart';
@@ -81,6 +82,24 @@ class FahrplanDecoder {
               break;
             }
           }
+        }
+      }
+      // set alarms
+      var alarms = Alarm.getAlarms();
+      for (AlarmSettings alarm in alarms) {
+        for (Day d in f.days!) {
+          d.talks!.forEach((t) {
+            if (t.code.hashCode == alarm.id) {
+              t.alarm = true;
+            }
+          });
+        }
+        for (Room r in f.rooms!) {
+          r.talks!.forEach((t) {
+            if (t.code.hashCode == alarm.id) {
+              t.alarm = true;
+            }
+          });
         }
       }
     }

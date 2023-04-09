@@ -5,21 +5,21 @@
     "description": "The title of the app"
   },
   "loading": "Fetching Fahrplan",
-    "@loading": {
-        "description": "Loading message when Fahrplan is being fetched"
-    },
+  "@loading": {
+    "description": "Loading message when Fahrplan is being fetched"
+  },
   "loadingError": "Could not fetch Fahrplan!",
-    "@loadingError": {
-        "description": "Error message when Fahrplan could not be fetched"
-    },
+  "@loadingError": {
+    "description": "Error message when Fahrplan could not be fetched"
+  },
   "dateFormat": "MMM dd, hh:mm a",
-    "@dateFormat": {
-        "description": "Date format for the date of a talk"
-    },
+  "@dateFormat": {
+    "description": "Date format for the date of a talk"
+  },
   "dayDateFormat": "E | MM/dd",
-    "@dayDateFormat": {
-        "description": "Date format for the date of a talk"
-    },
+  "@dayDateFormat": {
+    "description": "Date format for the date of a talk"
+  },
   "talkLabelTitle": "Talk title, $title",
   "@talkLabelTitle": {
     "description": "Label for talk title, $title is the title of the talk",
@@ -41,15 +41,15 @@
     }
   },
   "talkFavAdded": "\"{title}\" added to favorites.",
-    "@talkFavAdded": {
-        "description": "Message when a talk is added to favorites, {title} is the title of the talk",
-        "placeholders": {
-        "title": {
-            "content": "$1",
-            "example": "How to build a rocket"
-        }
-        }
-    },
+  "@talkFavAdded": {
+    "description": "Message when a talk is added to favorites, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
   "talkFavRemoved": "\"{title}\" removed from favorites.",
   "@talkFavRemoved": {
     "description": "Message when a talk is removed from favorites, {title} is the title of the talk",
@@ -61,238 +61,301 @@
     }
   },
   "talkFavRevertButton": "Revert",
-    "@talkFavRevertButton": {
-        "description": "Button to revert the removal of a talk from favorites"
-    },
+  "@talkFavRevertButton": {
+    "description": "Button to revert the removal of a talk from favorites"
+  },
   "talkTooltipInfo": "Show talk {title} details.",
-    "@talkTooltipInfo": {
-        "description": "Tooltip for the info button, {title} is the title of the talk",
-        "placeholders": {
-        "title": {
-            "content": "$1",
-            "example": "How to build a rocket"
-        }
-        }
-    },
-  "talkLabelCopyAbstract": "Copy abstract.",
-    "@talkLabelCopyAbstract": {
-        "description": "Label for the copy abstract button"
-    },
-  "talkTooltipCopyAbstract": "Copy abstract.",
-    "@talkTooltipCopyAbstract": {
-        "description": "Tooltip for the copy abstract button"
-    },
-  "talkLabelOpen": "Open {title}.",
-    "@talkLabelOpen": {
-        "description": "Label for the open button, {title} is the title of the talk",
-        "placeholders": {
-        "title": {
-            "content": "$1",
-            "example": "How to build a rocket"
-        }
-        }
-    },
-  "talkTooltipOpen": "Open talk.",
-    "@talkTooltipOpen": {
-        "description": "Tooltip for the open button"
-    },
-  "talkLabelShare": "Share {title}.",
-    "@talkLabelShare": {
-        "description": "Label for the share button, {title} is the title of the talk",
-        "placeholders": {
-        "title": {
-            "content": "$1",
-            "example": "How to build a rocket"
-        }
-        }
-    },
-  "talkTooltipShare": "Share talk.",
-    "@talkTooltipShare": {
-        "description": "Tooltip for the share button"
-    },
-  "shareTalkText":
-  "Check out this talk: {url}",
-    "@shareTalkText": {
-        "description": "Text to share a talk, {url} is the url of the talk",
-        "placeholders": {
-        "url": {
-            "content": "$1",
-            "example": "https://easterhegg.de/2020/talks/123"
-        }
-        }
-    },
-  "talkDetailsStartLabel": "Start {startStr}",
-    "@talkDetailsStartLabel": {
-        "description": "Label for the start time of a talk, {startStr} is the start time of the talk",
-        "placeholders": {
-        "startStr": {
-            "content": "$1",
-            "example": "10:00"
-        }
-        }
-    },
-  "talkDetailsDurationLabel": "Duration {duration} minutes",
-    "@talkDetailsDurationLabel": {
-        "description": "Label for the duration of a talk, {duration} is the duration of the talk",
-        "placeholders": {
-        "duration": {
-            "content": "$1",
-            "example": "60"
-        }
-        }
-    },
-  "talkDetailsDurationText": "{duration} minutes",
-    "@talkDetailsDurationText": {
-        "description": "Text for the duration of a talk, {duration} is the duration of the talk",
-        "placeholders": {
-        "duration": {
-            "content": "$1",
-            "example": "60"
-        }
-        }
-    },
-  "talkDetailsRoomLabel": "Room {room}",
-    "@talkDetailsRoomLabel": {
-        "description": "Label for the room of a talk, {room} is the room of the talk",
-        "placeholders": {
-        "room": {
-            "content": "$1",
-            "example": "Main Hall"
-        }
-        }
-    },
-  "talkDetailsTrackLabel": "Track {track}",
-    "@talkDetailsTrackLabel": {
-        "description": "Label for the track of a talk, {track} is the track of the talk",
-        "placeholders": {
-        "track": {
-            "content": "$1",
-            "example": "Main Hall"
-        }
-        }
-    },
-  "talkDetailsSpeakerLabel": "Presenter {name}",
-    "@talkDetailsSpeakerLabel": {
-        "description": "Label for the speaker of a talk, {name} is the name of the speaker",
-        "placeholders": {
-        "name": {
-            "content": "$1",
-            "example": "John Doe"
-        }
-        }
-    },
-  "talkDetailsAbstractLabel": "Abstract {abstract}",
-    "@talkDetailsAbstractLabel": {
-        "description": "Label for the abstract of a talk, {abstract} is the abstract of the talk",
-        "placeholders": {
-        "abstract": {
-            "content": "$1",
-            "example": "This is a talk about how to build a rocket."
-        }
-        }
-    },
-  "talkDetailsAbstractTitle": "Abstract: ",
-    "@talkDetailsAbstractTitle": {
-        "description": "Title for the abstract of a talk"
-    },
-  "syncCalendarSuccessTitle": "Sync successful",
-    "@syncCalendarSuccessTitle": {
-        "description": "Title for the success message when the calendar is synced"
-    },
-  "syncCalendarSuccessButton": "Ok",
-    "@syncCalendarSuccessButton": {
-        "description": "Label for the ok button when the calendar is synced"
-    },
-  "favoritesTitle": "Favorites",
-    "@favoritesTitle": {
-        "description": "Title for the favorites page"
-    },
-  "drawerLabelClose": "Close menu",
-    "@drawerLabelClose": {
-        "description": "Label for the close button of the drawer"
-    },
-  "drawerOverviewButton": "Show Overview",
-    "@drawerOverviewButton": {
-        "description": "Text for the overview button of the drawer"
-    },
-  "drawerFavouritesButton": "Show Favorites",
-    "@drawerFavouritesButton": {
-        "description": "Text for the favorites button of the drawer"
-    },
-  "drawerSyncCalendarButton": "Sync favorites with calendar",
-    "@drawerSyncCalendarButton": {
-        "description": "Text for the sync calendar button of the drawer"
-    },
-  "drawerShareAppButton": "Share this app",
-    "@drawerShareAppButton": {
-        "description": "Text for the share app button of the drawer"
-    },
-  "shareThisApp": "Check out the Easterhegg20 Fahrplan app: {url}",
-    "@shareThisApp": {
-        "description": "Text to share the app, {url} is the url of the app",
-        "placeholders": {
-        "url": {
-            "content": "$1",
-            "example": "https://easterhegg.de/2020/fahrplan"
-        }
-        }
-    },
-  "drawerPrivacyPolicyButton": "Show Data Privacy Policy",
-    "@drawerPrivacyPolicyButton": {
-        "description": "Text for the privacy policy button of the drawer"
-    },
-  "drawerReportBugButton": "Report a bug",
-    "@drawerReportBugButton": {
-        "description": "Text for the report bug button of the drawer"
-    },
-  "version": "Version {version}",
-    "@version": {
-        "description": "Text for the version of the app, {version} is the version of the app",
-        "placeholders": {
-        "version": {
-            "content": "$1",
-            "example": "1.0.0"
-        }
-        }
-    },
-  "drawerSyncCalendarTitle": "Sync favorites",
-    "@drawerSyncCalendarTitle": {
-        "description": "Title for the sync calendar dialog"
-    },
-  "errorNoInternet": "Please check your network connection.",
-    "@errorNoInternet": {
-        "description": "Error message when there is no internet connection"
-    },
-  "errorNoDataConnection": "Please enable mobile data or Wifi.",
-    "@errorNoDataConnection": {
-        "description": "Error message when there is no data connection"
-    },
-  "errorNoData": "Could not fetch Fahrplan.",
-    "@errorNoData": {
-        "description": "Error message when there is no Fahrplan data"
-    },
-  "overviewTitle": "Overview",
-    "@overviewTitle": {
-        "description": "Title for the overview page"
-    },
-  "overviewTitleWithEvent": "{event} Fahrplan",
-    "@overviewTitleWithEvent": {
-        "description": "Title for the overview page with the event name, {event} is the event name",
-        "placeholders": {
-        "event": {
-            "content": "$1",
-            "example": "Easterhegg 2020"
-        }
-        }
-    },
-  "favoritesTitleWithEvent": "Favorites - {event}",
-    "@favoritesTitleWithEvent": {
-        "description": "Title for the favorites page with the event name, {event} is the event name",
-        "placeholders": {
-        "event": {
-            "content": "$1",
-            "example": "Easterhegg 2020"
-        }
-        }
+  "@talkTooltipInfo": {
+    "description": "Tooltip for the info button, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
     }
+  },
+  "talkLabelCopyAbstract": "Copy abstract.",
+  "@talkLabelCopyAbstract": {
+    "description": "Label for the copy abstract button"
+  },
+  "talkTooltipCopyAbstract": "Copy abstract.",
+  "@talkTooltipCopyAbstract": {
+    "description": "Tooltip for the copy abstract button"
+  },
+  "talkLabelOpen": "Open {title}.",
+  "@talkLabelOpen": {
+    "description": "Label for the open button, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
+  "talkTooltipOpen": "Open talk.",
+  "@talkTooltipOpen": {
+    "description": "Tooltip for the open button"
+  },
+  "talkLabelShare": "Share {title}.",
+  "@talkLabelShare": {
+    "description": "Label for the share button, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
+  "talkTooltipShare": "Share talk.",
+  "@talkTooltipShare": {
+    "description": "Tooltip for the share button"
+  },
+  "shareTalkText": "Check out this talk: {url}",
+  "@shareTalkText": {
+    "description": "Text to share a talk, {url} is the url of the talk",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://easterhegg.de/2020/talks/123"
+      }
+    }
+  },
+  "talkDetailsStartLabel": "Start {startStr}",
+  "@talkDetailsStartLabel": {
+    "description": "Label for the start time of a talk, {startStr} is the start time of the talk",
+    "placeholders": {
+      "startStr": {
+        "content": "$1",
+        "example": "10:00"
+      }
+    }
+  },
+  "talkDetailsDurationLabel": "Duration {duration} minutes",
+  "@talkDetailsDurationLabel": {
+    "description": "Label for the duration of a talk, {duration} is the duration of the talk",
+    "placeholders": {
+      "duration": {
+        "content": "$1",
+        "example": "60"
+      }
+    }
+  },
+  "talkDetailsDurationText": "{duration} minutes",
+  "@talkDetailsDurationText": {
+    "description": "Text for the duration of a talk, {duration} is the duration of the talk",
+    "placeholders": {
+      "duration": {
+        "content": "$1",
+        "example": "60"
+      }
+    }
+  },
+  "talkDetailsRoomLabel": "Room {room}",
+  "@talkDetailsRoomLabel": {
+    "description": "Label for the room of a talk, {room} is the room of the talk",
+    "placeholders": {
+      "room": {
+        "content": "$1",
+        "example": "Main Hall"
+      }
+    }
+  },
+  "talkDetailsTrackLabel": "Track {track}",
+  "@talkDetailsTrackLabel": {
+    "description": "Label for the track of a talk, {track} is the track of the talk",
+    "placeholders": {
+      "track": {
+        "content": "$1",
+        "example": "Main Hall"
+      }
+    }
+  },
+  "talkDetailsSpeakerLabel": "Presenter {name}",
+  "@talkDetailsSpeakerLabel": {
+    "description": "Label for the speaker of a talk, {name} is the name of the speaker",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John Doe"
+      }
+    }
+  },
+  "talkDetailsAbstractLabel": "Abstract {abstract}",
+  "@talkDetailsAbstractLabel": {
+    "description": "Label for the abstract of a talk, {abstract} is the abstract of the talk",
+    "placeholders": {
+      "abstract": {
+        "content": "$1",
+        "example": "This is a talk about how to build a rocket."
+      }
+    }
+  },
+  "talkDetailsAbstractTitle": "Abstract: ",
+  "@talkDetailsAbstractTitle": {
+    "description": "Title for the abstract of a talk"
+  },
+  "talkLabelAlarmOff": "Turn alarm off for {title}.",
+  "@talkLabelAlarmOff": {
+    "description": "Label for the alarm off button, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
+  "talkTooltipAlarmOff": "Turn alarm off.",
+  "@talkTooltipAlarmOff": {
+    "description": "Tooltip for the alarm off button"
+  },
+  "talkLabelAlarmOn": "Set alarm for {title}.",
+  "@talkLabelAlarmOn": {
+    "description": "Label for the set alarm button, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
+  "talkTooltipAlarmOn": "Set alarm 10 minutes before the talk.",
+  "@talkTooltipAlarmOn": {
+    "description": "Tooltip for the set alarm button"
+  },
+  "syncCalendarSuccessTitle": "Sync successful",
+  "@syncCalendarSuccessTitle": {
+    "description": "Title for the success message when the calendar is synced"
+  },
+  "syncCalendarSuccessButton": "Ok",
+  "@syncCalendarSuccessButton": {
+    "description": "Label for the ok button when the calendar is synced"
+  },
+  "favoritesTitle": "Favorites",
+  "@favoritesTitle": {
+    "description": "Title for the favorites page"
+  },
+  "drawerLabelClose": "Close menu",
+  "@drawerLabelClose": {
+    "description": "Label for the close button of the drawer"
+  },
+  "drawerOverviewButton": "Show Overview",
+  "@drawerOverviewButton": {
+    "description": "Text for the overview button of the drawer"
+  },
+  "drawerFavouritesButton": "Show Favorites",
+  "@drawerFavouritesButton": {
+    "description": "Text for the favorites button of the drawer"
+  },
+  "drawerSyncCalendarButton": "Sync favorites with calendar",
+  "@drawerSyncCalendarButton": {
+    "description": "Text for the sync calendar button of the drawer"
+  },
+  "drawerShareAppButton": "Share this app",
+  "@drawerShareAppButton": {
+    "description": "Text for the share app button of the drawer"
+  },
+  "shareThisApp": "Check out the Easterhegg20 Fahrplan app: {url}",
+  "@shareThisApp": {
+    "description": "Text to share the app, {url} is the url of the app",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://easterhegg.de/2020/fahrplan"
+      }
+    }
+  },
+  "drawerPrivacyPolicyButton": "Show Data Privacy Policy",
+  "@drawerPrivacyPolicyButton": {
+    "description": "Text for the privacy policy button of the drawer"
+  },
+  "drawerReportBugButton": "Report a bug",
+  "@drawerReportBugButton": {
+    "description": "Text for the report bug button of the drawer"
+  },
+  "version": "Version {version}",
+  "@version": {
+    "description": "Text for the version of the app, {version} is the version of the app",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.0.0"
+      }
+    }
+  },
+  "drawerSyncCalendarTitle": "Sync favorites",
+  "@drawerSyncCalendarTitle": {
+    "description": "Title for the sync calendar dialog"
+  },
+  "errorNoInternet": "Please check your network connection.",
+  "@errorNoInternet": {
+    "description": "Error message when there is no internet connection"
+  },
+  "errorNoDataConnection": "Please enable mobile data or Wifi.",
+  "@errorNoDataConnection": {
+    "description": "Error message when there is no data connection"
+  },
+  "errorNoData": "Could not fetch Fahrplan.",
+  "@errorNoData": {
+    "description": "Error message when there is no Fahrplan data"
+  },
+  "overviewTitle": "Overview",
+  "@overviewTitle": {
+    "description": "Title for the overview page"
+  },
+  "overviewTitleWithEvent": "{event} Fahrplan",
+  "@overviewTitleWithEvent": {
+    "description": "Title for the overview page with the event name, {event} is the event name",
+    "placeholders": {
+      "event": {
+        "content": "$1",
+        "example": "Easterhegg 2020"
+      }
+    }
+  },
+  "favoritesTitleWithEvent": "Favorites - {event}",
+  "@favoritesTitleWithEvent": {
+    "description": "Title for the favorites page with the event name, {event} is the event name",
+    "placeholders": {
+      "event": {
+        "content": "$1",
+        "example": "Easterhegg 2020"
+      }
+    }
+  },
+  "alarmTalkStarts": "Your talk {title} is about to start soon...",
+  "@alarmTalkStarts": {
+    "description": "Text for the alarm notification, {title} is the title of the talk",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to build a rocket"
+      }
+    }
+  },
+  "alarmTalkRoom": "Room: {room}",
+  "@alarmTalkRoom": {
+    "description": "Text for the alarm notification, {room} is the room of the talk",
+    "placeholders": {
+      "room": {
+        "content": "$1",
+        "example": "Main Hall"
+      }
+    }
+  },
+  "alarmSnoozeButton": "Snooze",
+  "@alarmSnooze": {
+    "description": "Text for the snooze button of the alarm notification"
+  },
+  "alarmStopButton": "Stop",
+  "@alarmStopButton": {
+    "description": "Text for the stop button of the alarm notification"
+  },
+  "alarmNotificationTitle": "Your talk is about to start soon",
+  "@alarmNotificationTitle": {
+    "description": "Title for the alarm notification"
+  },
+  "alarmSnackBar": "Alarm is set",
+  "@alarmSnackBar": {
+    "description": "Text for the snackbar when the alarm is set"
+  }
 }

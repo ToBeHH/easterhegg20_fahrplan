@@ -8,11 +8,12 @@ Copyright (C) 2019 - 2021 Benjamin Schilling
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../provider/favorite_provider.dart';
 import '../utilities/fahrplan_fetcher.dart';
 import '../utilities/file_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Settings {
   int loadFullFahrplan = 0;
@@ -52,7 +53,7 @@ class Settings {
 
       var favorites = Provider.of<FavoriteProvider>(context, listen: false);
       favorites.notifyMainListeners();
-      favorites.futureFahrplan = FahrplanFetcher.fetchFahrplan();
+      favorites.futureFahrplan = FahrplanFetcher.fetchFahrplan(false);
     }
   }
 

@@ -45,7 +45,8 @@ android {
     defaultConfig {
         applicationId "de.schulzhess.easterhegg20_fahrplan"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

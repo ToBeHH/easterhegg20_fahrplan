@@ -1,0 +1,3 @@
+* Internationalization (Englisch/German)
+* always get the latest version
+* alarm for talks
