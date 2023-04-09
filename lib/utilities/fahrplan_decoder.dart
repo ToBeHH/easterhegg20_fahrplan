@@ -104,6 +104,29 @@ class FahrplanDecoder {
       }
     }
 
+    // filter for duplicates
+    for (Day d in f.days!) {
+      // get talk codes:
+      List<String> codes = [];
+      for (Talk t in d.talks!) {
+        if (codes.contains(t.code)) {
+          d.talks!.remove(t);
+        } else {
+          codes.add(t.code!);
+        }
+      }
+    }
+    for (Room r in f.rooms!) {
+      List<String> codes = [];
+      for (Talk t in r.talks!) {
+        if (codes.contains(t.code)) {
+          r.talks!.remove(t);
+        } else {
+          codes.add(t.code!);
+        }
+      }
+    }
+
     /// Sort favorites
     f.favoriteTalks!.sort((a, b) => a.start!.compareTo(b.start!));
     return f;

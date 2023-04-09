@@ -1,3 +1,4 @@
 * Internationalization (Englisch/German)
 * always get the latest version
 * alarm for talks
+* extra code to remove duplicates
