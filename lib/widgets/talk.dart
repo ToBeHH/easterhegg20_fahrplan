@@ -296,18 +296,22 @@ class _TalkState extends State<Talk> {
   Semantics getCardSubtitle() {
     String textString = '';
     textString = textString +
-        ('$widget.startStr' != ''
-            ? ('$widget.room' != ''
-                ? '$widget.startStr' + ' - '
-                : '$widget.startStr')
+        ('${widget.startStr}' != ''
+            ? ('${widget.room}' != ''
+                ? '${widget.startStr}' + ' - '
+                : '${widget.startStr}')
             : ' - ');
     textString = textString +
-        ('$widget.room' != ''
-            ? ('$widget.track' != '' ? '$widget.room' + ' - ' : '$widget.room')
+        ('${widget.room}' != ''
+            ? ('${widget.track}' != ''
+                ? '${widget.room}' + ' - '
+                : '${widget.room}')
             : ' - ');
-    textString = textString + ('$widget.track' != '' ? '$widget.track' : ' - ');
+    textString =
+        textString + ('${widget.track}' != '' ? '${widget.track}' : '');
     return Semantics(
-        label: 'Start $widget.startStr, Room $widget.room, Track $widget.track',
+        label:
+            'Start ${widget.startStr}, Room ${widget.room}, Track ${widget.track}',
         child: ExcludeSemantics(child: Text(textString)));
   }
 
@@ -327,7 +331,7 @@ class _TalkState extends State<Talk> {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$widget.startStr',
+                  '${widget.startStr}',
                 ),
               ],
             ),
@@ -368,7 +372,7 @@ class _TalkState extends State<Talk> {
                   child: Icon(Icons.room),
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
-                Text('$widget.room'),
+                Text('${widget.room}'),
               ],
             ),
           ),
@@ -389,7 +393,7 @@ class _TalkState extends State<Talk> {
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 ),
                 Text(
-                  '$widget.track',
+                  '${widget.track}',
                 ),
               ],
             ),
@@ -435,7 +439,7 @@ class _TalkState extends State<Talk> {
                     S.of(context).talkDetailsAbstractTitle,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text('$widget.abstract'),
+                  Text('${widget.abstract}'),
                 ],
               ),
             ),
