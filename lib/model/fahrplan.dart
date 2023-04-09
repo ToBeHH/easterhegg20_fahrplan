@@ -95,8 +95,20 @@ class Fahrplan {
     dayTabCache = TabBarView(
       children: buildDayTabs(),
     );
+
+    int preselectedIndex = 0;
+    DateTime today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    for (Day d in days!) {
+      if (today == d.date!) {
+        preselectedIndex = days!.indexOf(d);
+        break;
+      }
+    }
+
     return new DefaultTabController(
       length: days!.length,
+      initialIndex: preselectedIndex,
       child: new Scaffold(
         appBar: new AppBar(
           title: Text(S.of(context).overviewTitleWithEvent(Constants.acronym)),
@@ -145,8 +157,6 @@ class Fahrplan {
 
   List<Widget> getDaysAsText(BuildContext context) {
     List<Widget> dayTexts = [];
-    DateTime today =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
     for (Day d in days!) {
       if (d.talks!.length == 0) {
@@ -161,7 +171,6 @@ class Fahrplan {
       dayTexts.add(
         new Semantics(
           label: semanticsDay,
-          focused: today == d.date!,
           child: ExcludeSemantics(
             child: Text(
               dateString,

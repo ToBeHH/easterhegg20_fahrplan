@@ -2,3 +2,4 @@
 * Immer die aktuellste Version des Fahrplans holen
 * Alarm für Talks
 * Extra Code, um doppelte Einträge zu löschen
+* Während der Konferenz den aktuellen Tag vorselektieren
